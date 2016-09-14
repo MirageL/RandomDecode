@@ -1,57 +1,44 @@
 package msgDecode;
 
 public class MsgDecode {
-
-	/*public String Message (byte[] decodeByte) {
-	    StringBuilder hexByte = new StringBuilder();
-	    for (byte b : decodeByte) {
-	        hexByte.append(String.format("%02X ", b));
-	    }
-	    System.out.println(sb.toString());
-		if(decodeByte[0] != 0xAA && decodeByte[decodeByte.length-1] != 0xFF){
-			return "I can't read this code";
-		}
-		String message = null;
-		String[] msgCode = {"Light Status","Light Status and Color","Temperature","Random Message"};
-		return message;
-	}*/
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	public static void main(String[] args) throws Exception {
 
+		byte[] LStestByte = {(byte)0xAA, 1, (byte)121234, 0, (byte)0xFF};
+		/*Same as below:		 * 
+		 * 
+		 * byte[] LStestByte = new byte[5];
+		LStestByte[0] = (byte)0xAA;
+		LStestByte[1] = 1;
+		LStestByte[2] = (byte)1256789;
+		LStestByte[3] = 0;
+		LStestByte[4] = (byte)0xAF;*/
 		
+		byte[] LSCtestByte = {(byte)0xAA, 2, (byte)121234, 0, 1, (byte)0xFF};
 		
+		//Light Status Message
+		byte[] test1 = hexStringToByteArray("AA0100000156D8AD1C5301FF");
+		//Light Status and Color Message
+		byte[] test2 = hexStringToByteArray("AA0200000156D8AD1C530100FF");
+		//Temperature Message
+		byte[] test3 = hexStringToByteArray("AA0300000156D8AD1C530130FF");
+		//Random Message
+		byte[] test4 = hexStringToByteArray("AA0400000156D8B1FCBD0018594F55204445434F4445442054484520535452494E47212121FF");
 		
-		
-		
-		
-		/*int x = 10;
-		byte[] message = new byte[]{(byte)0xAA};
-		System.out.println((byte)0xA0);
-		if (message[0] == (byte)0xAA){
-			System.out.println(true);
-		}
-		//message[0] = 0xAA;
-		System.out.println(message.length);
-		System.out.println(message);
-		System.out.println((byte)0xAA);
-		byte[] bytes = {(byte) 130, 0, 1, 2, 3, (byte) 160 };
-	    StringBuilder sb = new StringBuilder();
-	    for (byte b : bytes) {
-	        sb.append(String.format("%02X ", b));
-	    }
-	    char[] str = new char[2];
-	    System.out.println(sb.toString().getClass().getSimpleName());
-	    sb.toString().getChars(0, 2, str, 0);
-	    System.out.println(str);
-	    for (char test:sb.toString().toCharArray()){
-	    	System.out.print(test);*/
-	    }
+		MessageCode lightTest1 = new MessageCode(test1);
+		MessageCode lightTest2 = new MessageCode(test2);
+		MessageCode lightTest3 = new MessageCode(test3);
+		MessageCode lightTest4 = new MessageCode(test4);
+	}
 	
-	public int ParseMessage(byte[] Message){
-		
-		//ArrayList<MessageCode> 
-	    return 0;
+	public static byte[] hexStringToByteArray(String s) {
+	    int len = s.length();
+	    byte[] data = new byte[len / 2];
+	    for (int i = 0; i < len; i += 2) {
+	        data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+	                             + Character.digit(s.charAt(i+1), 16));
+	    }
+	    return data;
 	}
 
 }
